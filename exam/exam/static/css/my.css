@@ -1,0 +1,87 @@
+.main-panel {
+    width: 1000px;
+    left: calc(50% - 500px);
+    float: none;
+}
+
+.card {
+    height: 550px;
+    top: 0px;
+}
+
+.button-pos {
+    bottom: 30px;
+    position: absolute;
+    width: calc(100% - 40px);
+}
+
+.lb-stat-pos {
+    bottom: 120px;
+    position: absolute;
+    width: calc(100% - 40px);    
+}
+
+.lb-stat-pos label {
+    color: red;
+}
+
+.card-content {
+    margin: 30px 50px;
+    height: 400px
+
+}
+
+.lb-option-sel {
+    color: blue;
+}
+
+.lb-option-correct {
+    color: red;
+}
+
+.card-content div {
+    font-size: 30px;
+    line-height: 50px;
+}
+
+div .first_page {
+    font-size: 35px;
+    margin: 40px;
+}
+
+label {
+    font-size: 18px;
+}
+
+.lb-score {
+    font-size: 100px;
+    color: blue;
+}
+
+.score {
+    font-size: 100px;
+    color: red;
+}
+
+#header {
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+#pre-ans {
+    font-style: italic;
+    color: cadetblue;
+}
+
+.your_score {
+    text-align: center;
+    font-size: 70px !important;
+    font-family: 'Lobster';
+    margin: 15px 0 25px 0;
+    color: #ee3a43;
+}
+
+.your_score span {
+    color: #000;
+}

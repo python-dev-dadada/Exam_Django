@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="/static/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="/static/img/favicon.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <link rel="canonical" href="https://appseed.us/admin-dashboards/django-dashboard-material">
+
+  <title>
+    Exam
+  </title>
+
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- CSS Files -->
+  <link href="/static/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <link href="/static/css/my.css" rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <!-- <link href="/static/demo/demo.css" rel="stylesheet" /> -->
+  
+  
+
+  <!-- Specific Page CSS goes HERE  -->
+
+</head>
+
+<body>
+  <div class="wrapper ">
+
+    <div class="main-panel">
+
+      <!-- End Navbar -->
+      <div class="content">
+        <div class="container-fluid">
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Exam</h4>
+                  <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
+                </div>
+                <div class="card-body">
+                  <div class="card-content">
+                    <div id="header">
+                      Item {{ cur }} of {{ total }}
+                    </div>
+                    <div id="question" class="my-2">
+                      {{ q }}
+                    </div>
+                    <script>var pre_ans = []; var pre_ans_val = 1;</script>
+                    {% for s in o %}
+                      <script>pre_ans.push("{{ s }}"); console.log("{{ s }}");</script>
+                      {% if forloop.counter == 1 %}
+                      <div id="pre-ans" class="mt-4">
+                        {{ s }}
+                      </div>
+                      {% endif %}
+                      <!-- <div class="">
+                        <input type="radio" name="pre_ans" class="rd-option" value="{{ forloop.counter }}">
+                        <label class="lb-option">{{ s }}</label>
+                      </div> -->
+                    {% endfor %}
+                    <script>var correct_ans_val = pre_ans["{{ a }}" - 1]; console.log("correct_ans_val_2 = " + correct_ans_val); pre_ans.shift()</script>
+                  </div>
+                  <div class="d-flex justify-content-md-center lb-stat-pos">
+                    <label id="lb_stat"></label>
+                  </div>
+                  <div class="d-flex justify-content-md-center button-pos">
+                    <button type="button" class="btn btn-primary pull-left" id="btn_yes">YES</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-primary pull-right" id="btn_no">NO</button>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Specific Page JS goes HERE  -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    var counter = 0;
+
+    $( document ).ready(function() {
+      counter = 0;
+      correct_ans = "{{ a }}";
+      correct = 0;
+    });
+
+    $( ".rd-option" ).click(function() {
+      $(".lb-option").removeClass("lb-option-sel")
+      $(this).siblings("label").addClass("lb-option-sel");
+      if ($(this).siblings("label").text() == $(".lb-option").eq(correct_ans-1).text()) {
+        correct = 1;
+      }else {
+        correct = 0;
+      }
+    });
+
+    $( ".lb-option" ).click(function() {
+      $(this).siblings("input").click();
+    });
+
+    $("#btn").click(function() {
+      if (counter == 0) {
+        if (correct == 1) {
+          $("#lb_stat").text("It's Correct!");
+        }else {
+          $("#lb_stat").text("Wrong, it's actually: Windows");
+          $(".lb-option").eq(correct_ans-1).addClass("lb-option-correct");  
+        }
+        $(this).html("{{ btn_name }}");
+      }else{
+        location.href = "/exam?correct=" + correct;
+      }
+      counter++;
+    });
+
+    $("#btn_no").click(function() {
+      if (pre_ans.length > 0) {
+        $("#pre-ans").html(pre_ans.shift());
+        pre_ans_val++;
+      }
+    });
+
+    $("#btn_yes").click(function() {
+      console.log($("#lb_stat").text());
+      if ($("#lb_stat").text() == "") {
+        if (correct_ans == pre_ans_val) {
+          $("#lb_stat").text("Correct");
+        } else {
+          $("#lb_stat").text("Wrong, it's actually: " + correct_ans_val);
+        }
+      } else {
+        if (correct_ans == pre_ans_val) {
+          location.href = "/exam?correct=1";
+        } else {
+          location.href = "/exam?correct=0";
+        }
+      }
+      
+
+    });
+  </script>
+</body>
+</html>
